@@ -15,7 +15,7 @@
         "
       />
       <ToDoListItem
-        v-if="newListItem"
+        v-if="newListItem && listIndex === newListItem.listId"
         :title="''"
         :edit="true"
         @title-edited="
@@ -28,7 +28,7 @@
       />
     </template>
     <template #list-control-panel v-if="todoList.editable">
-      <AddTodoItemButton @click="createListItem" />
+      <AddTodoItemButton @click="createListItem(listIndex)" />
     </template>
   </ToDoList>
 </template>
@@ -47,9 +47,15 @@ const store = useUserWorkspace();
 const { todoLists } = storeToRefs(store);
 
 //new list item
-const newListItem = ref<Partial<ITodoListItem> | ITodoListItem | null>();
-const createListItem = () => {
-  newListItem.value = {};
+type newTodoListItem =
+  | Partial<ITodoListItem>
+  | ITodoListItem
+  | { listId: number };
+const newListItem = ref<newTodoListItem | null>();
+const createListItem = (listId: number) => {
+  newListItem.value = {
+    listId,
+  };
 };
 const handleNewItemCreate = (listIndex: number, item: ITodoListItem) => {
   store.addTodo(listIndex, item);

@@ -49,7 +49,12 @@ const NotEditableTodoListMock: ITodoList = {
   editable: false,
   items: TodoList2DataMock,
 };
+const TstTodoListMock: ITodoList = {
+  title: "Test todo list #3",
+  editable: true,
+  items: TodoList2DataMock,
+};
 
 export const useUserWorkspaceMock: IUserWorkspace = {
-  todoLists: [EditableTodoListMock, NotEditableTodoListMock],
+  todoLists: [EditableTodoListMock, NotEditableTodoListMock, TstTodoListMock],
 };
