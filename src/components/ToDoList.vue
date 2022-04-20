@@ -1,10 +1,18 @@
 <template>
   <div class="todo-list">
     <h3 class="text-sm">{{ title }}</h3>
-    <div class="mt-2" v-if="$slots['cards-list']().length">
+    <div
+      class="mt-2"
+      v-if="$slots['cards-list'] && $slots['cards-list']().length"
+    >
       <slot name="cards-list"></slot>
     </div>
-    <div v-if="$slots['list-control-panel']().length" class="mt-2">
+    <div
+      v-if="
+        $slots['list-control-panel'] && $slots['list-control-panel']().length
+      "
+      class="mt-2"
+    >
       <slot name="list-control-panel"></slot>
     </div>
   </div>
