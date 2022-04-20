@@ -15,6 +15,9 @@
     "paths": {
       "@app/components/*": [
         "./src/components/*"
+      ],
+      "@app/types/*": [
+        "./src/types/*"
       ]
     }
   },
