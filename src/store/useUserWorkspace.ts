@@ -14,8 +14,15 @@ export const useUserWorkspace = defineStore<
   state: () => useUserWorkspaceMock,
   actions: {
     updateTodo(todoListId: number, todoId: number, item: ITodoListItem) {
-      if (this.todoLists.at(todoListId)?.items.at(todoId) !== undefined) {
-        this.todoLists.at(todoListId)?.items.splice(todoId, 1, item);
+      const todoList = this.todoLists.at(todoListId);
+      if (todoList !== undefined) {
+        todoList.items.splice(todoId, 1, item);
+      }
+    },
+    addTodo(todoListId: number, item: ITodoListItem) {
+      const todoList = this.todoLists.at(todoListId);
+      if (todoList !== undefined) {
+        todoList.items.push(item);
       }
     },
   },

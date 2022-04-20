@@ -9,36 +9,51 @@
       <ToDoListItem
         v-for="(todo, itemIndex) in todoList.items"
         :title="todo.title"
-        :description="todo.description"
         :key="itemIndex"
         @title-edited="
-          handleTodoItemTitleEdit(listIndex, itemIndex, todo, $event)
+          store.updateTodo(listIndex, itemIndex, { ...todo, title: $event })
         "
+      />
+      <ToDoListItem
+        v-if="newListItem"
+        :title="''"
+        :edit="true"
+        @title-edited="
+          handleNewItemCreate(listIndex, {
+            ...newListItem,
+            title: $event,
+          })
+        "
+        @title-edit-cancel="newListItem = null"
       />
     </template>
     <template #list-control-panel v-if="todoList.editable">
-      <AddTodoItemButton />
+      <AddTodoItemButton @click="createListItem" />
     </template>
   </ToDoList>
 </template>
 
 <script setup lang="ts">
+import { storeToRefs } from "pinia";
+import { useUserWorkspace } from "@app/store/useUserWorkspace";
+import { ITodoListItem } from "@app/types/todo/ITodoListItem";
 import ToDoList from "@app/components/ToDoList.vue";
 import ToDoListItem from "@app/components/ToDoListItem.vue";
 import AddTodoItemButton from "@app/components/AddTodoItemButton.vue";
-import { useUserWorkspace } from "@app/store/useUserWorkspace";
-import { storeToRefs } from "pinia";
-import { ITodoListItem } from "@app/types/todo/ITodoListItem";
+import { ref } from "vue";
 
+//app store
 const store = useUserWorkspace();
 const { todoLists } = storeToRefs(store);
-const handleTodoItemTitleEdit = function (
-  listId: number,
-  itemID: number,
-  todo: ITodoListItem,
-  title: string
-) {
-  store.updateTodo(listId, itemID, { ...todo, title });
+
+//new list item
+const newListItem = ref<Partial<ITodoListItem> | ITodoListItem | null>();
+const createListItem = () => {
+  newListItem.value = {};
+};
+const handleNewItemCreate = (listIndex: number, item: ITodoListItem) => {
+  store.addTodo(listIndex, item);
+  newListItem.value = null;
 };
 </script>
 

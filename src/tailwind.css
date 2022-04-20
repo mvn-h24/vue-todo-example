@@ -12,9 +12,16 @@
     .todo-list{
         @apply rounded bg-gray-200 p-2
     }
-    .blue-btn{
-        @apply bg-blue-600 text-white rounded-md hover:bg-blue-500 font-semibold px-4 py-3 w-full transition ease-in-out
+    .abstract-btn{
+        @apply text-white rounded-md font-semibold px-4 py-1 w-full transition ease-in-out
     }
+    .blue-btn{
+        @apply bg-blue-600 hover:bg-blue-500 abstract-btn
+    }
+    .red-btn{
+        @apply bg-red-600 hover:bg-red-500 abstract-btn
+    }
+
     .app-layout{
         @apply bg-blue-600 p-6
     }

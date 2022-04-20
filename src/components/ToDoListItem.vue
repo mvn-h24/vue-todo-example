@@ -16,9 +16,13 @@
         <textarea
           ref="EditArea"
           class="w-full resize-none"
+          placeholder="Введите наименование задачи"
           :value="title"
         ></textarea>
         <button class="blue-btn w-auto" @click="handleEdit">Сохранить</button>
+        <button class="ml-1.5 red-btn w-auto" @click="cancelEdit">
+          Отмена
+        </button>
       </template>
       <template v-else>
         <span @click="ToggleEdit">{{ title }}</span>
@@ -34,15 +38,12 @@ import ToastMessage from "@app/components/ToastMessage.vue";
 //props
 interface ToDoListItemProps {
   title: string;
+  edit?: boolean;
 }
 const props = defineProps<ToDoListItemProps>();
-const { title } = toRefs<ToDoListItemProps>(props);
+const { title, edit } = toRefs<ToDoListItemProps>(props);
 
-//flow control
-const editing = ref(false);
-const ToggleEdit = () => {
-  editing.value = !editing.value;
-};
+//errors
 const errors = ref<Array<string>>([]);
 enum Errors {
   titleEmpty = "empty title",
@@ -57,15 +58,29 @@ watch(
   { flush: "post" }
 );
 
-//text area
-const EditArea = ref<HTMLElement | null>(null);
+//edit title
+const editing = ref(edit?.value !== undefined && edit.value);
+
 enum EditActions {
   titleEdited = "title-edited",
+  titleEditCancel = "title-edit-cancel",
 }
 interface EditEmits {
   (e: EditActions.titleEdited, editedTitle: string): void;
+  (e: EditActions.titleEditCancel): void;
 }
 const emit = defineEmits<EditEmits>();
+
+const ToggleEdit = () => {
+  editing.value = !editing.value;
+};
+const cancelEdit = () => {
+  editing.value = false;
+  emit(EditActions.titleEditCancel);
+};
+
+//text area
+const EditArea = ref<HTMLElement | null>(null);
 function handleEdit() {
   if (EditArea.value !== null) {
     const textarea = EditArea.value as HTMLTextAreaElement;
