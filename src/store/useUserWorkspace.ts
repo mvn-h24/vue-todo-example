@@ -1,15 +1,14 @@
-import { defineStore } from "pinia";
+import { _GettersTree, defineStore } from "pinia";
 import { IUserWorkspace } from "@app/types/workspace/IUserWorkspace";
 import { useUserWorkspaceMock } from "@app/store/useUserWorkspace.mock";
 import { ITodoListItem } from "@app/types/todo/ITodoListItem";
 import { IUserWorkspaceActions } from "@app/types/workspace/IUserWorkspaceActions";
-import { IUserWorkspaceGetters } from "@app/types/workspace/IUserWorkspaceGetters";
 
 export const TodoListStoreToken = "TodoListsStore";
 export const useUserWorkspace = defineStore<
   typeof TodoListStoreToken,
   IUserWorkspace,
-  IUserWorkspaceGetters,
+  _GettersTree<IUserWorkspace>,
   IUserWorkspaceActions
 >(TodoListStoreToken, {
   state: () => useUserWorkspaceMock,
