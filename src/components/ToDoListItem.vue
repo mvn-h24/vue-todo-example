@@ -25,7 +25,9 @@
         </button>
       </template>
       <template v-else>
-        <span @click="ToggleEdit">{{ title }}</span>
+        <span :class="{ 'text-red-700': !title.length }" @click="ToggleEdit">{{
+          title.length ? title : "Empty title"
+        }}</span>
       </template>
     </div>
   </div>
@@ -46,7 +48,7 @@ const { title, edit } = toRefs<ToDoListItemProps>(props);
 //errors
 const errors = ref<Array<string>>([]);
 enum Errors {
-  titleEmpty = "empty title",
+  titleEmpty = "Empty title",
 }
 watch(
   () => errors.value.length,
