@@ -16,6 +16,9 @@
       "@app/components/*": [
         "./src/components/*"
       ],
+      "@app/store/*": [
+        "./src/store/*"
+      ],
       "@app/types/*": [
         "./src/types/*"
       ]

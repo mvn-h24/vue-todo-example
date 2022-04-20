@@ -1,16 +1,19 @@
 <template>
   <ToDoList
-    v-for="(todoList, index) in ListOfTodoLists"
-    :key="index"
+    v-for="(todoList, listIndex) in todoLists"
+    :key="listIndex"
     :title="todoList.title"
     :editable="todoList.editable"
   >
     <template #cards-list v-if="todoList.items.length">
       <ToDoListItem
-        v-for="(todo, index) in todoList.items"
+        v-for="(todo, itemIndex) in todoList.items"
         :title="todo.title"
         :description="todo.description"
-        :key="index"
+        :key="itemIndex"
+        @title-edited="
+          handleTodoItemTitleEdit(listIndex, itemIndex, todo, $event)
+        "
       />
     </template>
     <template #list-control-panel v-if="todoList.editable">
@@ -19,27 +22,24 @@
   </ToDoList>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import ToDoList from "@app/components/ToDoList.vue";
 import ToDoListItem from "@app/components/ToDoListItem.vue";
-import { defineComponent, ref } from "vue";
 import AddTodoItemButton from "@app/components/AddTodoItemButton.vue";
-import { ITodoList } from "@app/types/ITodoList";
-import { EditableTodoListMock } from "./app-data-mock";
+import { useUserWorkspace } from "@app/store/useUserWorkspace";
+import { storeToRefs } from "pinia";
+import { ITodoListItem } from "@app/types/todo/ITodoListItem";
 
-export default defineComponent({
-  setup() {
-    const ListOfTodoLists = ref<Array<ITodoList>>([EditableTodoListMock]);
-    return {
-      ListOfTodoLists,
-    };
-  },
-  components: {
-    ToDoListItem,
-    ToDoList,
-    AddTodoItemButton,
-  },
-});
+const store = useUserWorkspace();
+const { todoLists } = storeToRefs(store);
+const handleTodoItemTitleEdit = function (
+  listId: number,
+  itemID: number,
+  todo: ITodoListItem,
+  title: string
+) {
+  store.updateTodo(listId, itemID, { ...todo, title });
+};
 </script>
 
 <style>

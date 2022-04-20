@@ -1,4 +1,4 @@
-import { ITodoListItem } from "@app/types/ITodoListItem";
+import { ITodoListItem } from "@app/types/todo/ITodoListItem";
 
 export interface ITodoList {
   title: string;

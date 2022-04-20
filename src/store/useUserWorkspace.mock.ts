@@ -1,7 +1,8 @@
-import { ITodoListItem } from "@app/types/ITodoListItem";
-import { ITodoList } from "@app/types/ITodoList";
+import { ITodoListItem } from "@app/types/todo/ITodoListItem";
+import { ITodoList } from "@app/types/todo/ITodoList";
+import { IUserWorkspace } from "@app/types/workspace/IUserWorkspace";
 
-export const TodoListDataMock: Array<ITodoListItem> = [
+const TodoListDataMock: Array<ITodoListItem> = [
   {
     title: "Test card #1",
     description: "Test card #1 description",
@@ -20,8 +21,11 @@ export const TodoListDataMock: Array<ITodoListItem> = [
   },
 ];
 
-export const EditableTodoListMock: ITodoList = {
+const EditableTodoListMock: ITodoList = {
   title: "Test todo list",
   editable: true,
   items: TodoListDataMock,
+};
+export const useUserWorkspaceMock: IUserWorkspace = {
+  todoLists: [EditableTodoListMock],
 };
