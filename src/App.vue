@@ -2,8 +2,8 @@
   <ToDoList
     v-for="(todoList, listIndex) in todoLists"
     :key="listIndex"
+    :class="{ 'mt-4': listIndex }"
     :title="todoList.title"
-    :editable="todoList.editable"
   >
     <template #cards-list v-if="todoList.items.length">
       <ToDoListItem
