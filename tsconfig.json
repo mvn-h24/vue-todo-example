@@ -21,6 +21,9 @@
       ],
       "@app/types/*": [
         "./src/types/*"
+      ],
+      "@app/*": [
+        "./src/composable/*"
       ]
     }
   },

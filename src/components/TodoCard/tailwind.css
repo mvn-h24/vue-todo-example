@@ -1,0 +1,8 @@
+@layer components {
+    .todo-card{
+        @apply flex bg-white p-2 rounded mt-1 border-b border-gray-200 cursor-pointer text-sm hover:bg-gray-100
+    }
+    .todo-card-editing{
+        @apply hover:bg-white
+    }
+}

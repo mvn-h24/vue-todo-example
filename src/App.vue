@@ -1,12 +1,12 @@
 <template>
-  <ToDoList
+  <ListComponent
     v-for="(todoList, listIndex) in todoLists"
     :key="listIndex"
     :class="{ 'mt-4': listIndex }"
     :title="todoList.title"
   >
     <template #cards-list v-if="todoList.items.length">
-      <ToDoListItem
+      <ToDoCard
         v-for="(todo, itemIndex) in todoList.items"
         :title="todo.title"
         :key="itemIndex"
@@ -14,7 +14,7 @@
           store.updateTodo(listIndex, itemIndex, { ...todo, title: $event })
         "
       />
-      <ToDoListItem
+      <ToDoCard
         v-if="newListItem && listIndex === newListItem.listId"
         :title="newListItem.title"
         :edit="true"
@@ -28,18 +28,18 @@
       />
     </template>
     <template #list-control-panel v-if="todoList.editable">
-      <AddTodoItemButton @click="createListItem(listIndex)" />
+      <ButtonComponent @click="createListItem(listIndex)" />
     </template>
-  </ToDoList>
+  </ListComponent>
 </template>
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useUserWorkspace } from "@app/store/useUserWorkspace";
 import { ITodoListItem } from "@app/types/todo/ITodoListItem";
-import ToDoList from "@app/components/ToDoList.vue";
-import ToDoListItem from "@app/components/ToDoListItem.vue";
-import AddTodoItemButton from "@app/components/AddTodoItemButton.vue";
+import ListComponent from "@app/components/List/component.vue";
+import ToDoCard from "@app/components/TodoCard/component.vue";
+import ButtonComponent from "@app/components/Button/component.vue";
 import { ref } from "vue";
 
 //app store

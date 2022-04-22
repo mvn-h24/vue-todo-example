@@ -1,0 +1,14 @@
+@layer components {
+    .toast-message{
+        @apply flex items-center text-white max-w-sm w-full shadow-md rounded-lg overflow-hidden mx-auto
+    }
+    .toast-error{
+        @apply bg-red-400
+    }
+    .toast-notify{
+        @apply bg-green-400
+    }
+    .toast-warning{
+        @apply bg-yellow-400
+    }
+}
