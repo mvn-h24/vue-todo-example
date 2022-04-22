@@ -12,11 +12,3 @@
     3/5
   </span>
 </template>
-
-<script>
-export default {
-  name: "CheckListChecksCounter",
-};
-</script>
-
-<style scoped></style>

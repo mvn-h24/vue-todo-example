@@ -15,7 +15,7 @@
         "
       />
       <ToDoListItem
-        v-if="newListItem && listIndex === newListItem.listId"
+        v-if="newListItem && listIndex === newListItem['listId']"
         :title="''"
         :edit="true"
         @title-edited="
@@ -47,10 +47,7 @@ const store = useUserWorkspace();
 const { todoLists } = storeToRefs(store);
 
 //new list item
-type newTodoListItem =
-  | Partial<ITodoListItem>
-  | ITodoListItem
-  | { listId: number };
+type newTodoListItem = Partial<ITodoListItem> | { listId: number };
 const newListItem = ref<newTodoListItem | null>();
 const createListItem = (listId: number) => {
   newListItem.value = {
