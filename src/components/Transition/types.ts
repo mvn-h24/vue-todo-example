@@ -1,4 +1,4 @@
-export enum ToastDirection {
+export enum TransitionDirection {
   leftToRight = "leftToRight",
   rightToLeft = "rightToLeft",
   bottomToTop = "bottomToTop",

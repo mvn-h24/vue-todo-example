@@ -1,5 +1,5 @@
 <template>
-  <ShowTransition @after-leave="selfRemove">
+  <ShowSlideTransition @after-leave="selfRemove">
     <div
       v-show="show"
       :class="[
@@ -67,17 +67,17 @@
         </div>
       </div>
     </div>
-  </ShowTransition>
+  </ShowSlideTransition>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 import { ToastType } from "./type";
-import ShowTransition from "@app/components/ShowTransition/component.vue";
+import ShowSlideTransition from "@app/components/Transition/ShowSlideTransition.vue";
 
 export default defineComponent({
   components: {
-    ShowTransition,
+    ShowSlideTransition,
   },
   name: "ToastComponent",
   setup() {

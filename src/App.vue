@@ -10,7 +10,7 @@
         v-for="(todo, itemIndex) in todoList.items"
         :title="todo.title"
         :key="itemIndex"
-        @detail-call="cardDetailsCalled"
+        @detail-call="cardDetailsCalled(todo)"
         @title-edited="
           store.updateTodo(listIndex, itemIndex, { ...todo, title: $event })
         "
@@ -36,6 +36,14 @@
       >
     </template>
   </ListComponent>
+  <ModalDialogComponent
+    v-if="detailTodoElement"
+    @dialog-close="cardDetailsClosed"
+  >
+    <template #dialog-content
+      ><TodoDetailComponent :todo="detailTodoElement"
+    /></template>
+  </ModalDialogComponent>
 </template>
 
 <script setup lang="ts">
@@ -46,6 +54,8 @@ import ListComponent from "@app/components/List/component.vue";
 import ToDoCard from "@app/components/TodoCard/component.vue";
 import ButtonComponent from "@app/components/Button/component.vue";
 import { ref } from "vue";
+import ModalDialogComponent from "@app/components/ModalDialog/component.vue";
+import TodoDetailComponent from "@app/components/TodoDetail/component.vue";
 
 //app store
 const store = useUserWorkspace();
@@ -63,12 +73,18 @@ const createListItem = (listId: number) => {
     listId,
   };
 };
+
+//card details
+const detailTodoElement = ref<null | ITodoListItem>(null);
 const handleNewItemCreate = (listIndex: number, item: ITodoListItem) => {
   store.addTodo(listIndex, item);
   newListItem.value = null;
 };
-const cardDetailsCalled = () => {
-  console.log("detail called");
+const cardDetailsCalled = (todo: ITodoListItem) => {
+  detailTodoElement.value = todo;
+};
+const cardDetailsClosed = () => {
+  detailTodoElement.value = null;
 };
 </script>
 

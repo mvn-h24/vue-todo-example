@@ -2,6 +2,7 @@
 @import "./components/List/tailwind.css";
 @import "./components/Toast/tailwind.css";
 @import "./components/TodoCard/tailwind.css";
+@import "./components/ModalDialog/tailwind.css";
 
 @tailwind base;
 @tailwind components;

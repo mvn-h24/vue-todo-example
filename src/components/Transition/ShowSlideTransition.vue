@@ -6,14 +6,14 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ToastDirection } from "./types";
+import { TransitionDirection } from "./types";
 
 export default defineComponent({
-  name: "ShowTransition",
+  name: "ShowSlideTransition",
   props: {
     direction: {
-      type: String as PropType<ToastDirection>,
-      default: () => ToastDirection.rightToLeft,
+      type: String as PropType<TransitionDirection>,
+      default: () => TransitionDirection.rightToLeft,
     },
     easeSeconds: {
       type: Number,
@@ -29,8 +29,8 @@ export default defineComponent({
       return { "--transition-pars": `all ${this.easeSeconds}s ease` };
     },
     pathLengthDirectional() {
-      return this.direction === ToastDirection.leftToRight ||
-        this.direction === ToastDirection.topToBottom
+      return this.direction === TransitionDirection.leftToRight ||
+        this.direction === TransitionDirection.topToBottom
         ? this.pathLength * -1
         : this.pathLength;
     },
