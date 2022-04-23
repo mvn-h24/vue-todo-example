@@ -22,6 +22,9 @@
       "@app/types/*": [
         "./src/types/*"
       ],
+      "@app/directive": [
+        "./src/directive/index.ts"
+      ],
       "@app/*": [
         "./src/composable/*"
       ]

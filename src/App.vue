@@ -10,6 +10,7 @@
         v-for="(todo, itemIndex) in todoList.items"
         :title="todo.title"
         :key="itemIndex"
+        @detail-call="cardDetailsCalled"
         @title-edited="
           store.updateTodo(listIndex, itemIndex, { ...todo, title: $event })
         "
@@ -65,6 +66,9 @@ const createListItem = (listId: number) => {
 const handleNewItemCreate = (listIndex: number, item: ITodoListItem) => {
   store.addTodo(listIndex, item);
   newListItem.value = null;
+};
+const cardDetailsCalled = () => {
+  console.log("detail called");
 };
 </script>
 
