@@ -1,6 +1,9 @@
 <template>
-  <div :class="['todo-card', { 'todo-card-editing': editMode }]">
-    <div class="w-full relative flex justify-between" @click="callDetail">
+  <div
+    :class="['todo-card', { 'todo-card-editing': editMode }]"
+    @click.self="callDetail"
+  >
+    <div class="w-full relative flex justify-between" @click.self="callDetail">
       <ToastComponent
         v-for="error in errorList"
         class="absolute right-5"
@@ -26,9 +29,18 @@
         </div>
       </template>
       <template v-else>
-        <span :class="{ 'text-red-700': !title.length }">{{
-          title.length ? title : "Empty title"
-        }}</span>
+        <span
+          :class="[
+            'ease-in-out',
+            'duration-300',
+            'rounded-md',
+            'p-1',
+            'self-center',
+            'hover:ring-2 hover:ring-yellow-500',
+            { 'text-red-700': !title.length },
+          ]"
+          >{{ title.length ? title : "Empty title" }}</span
+        >
         <ButtonComponent class="blue-btn ml-4 h-7" @click="ToggleEdit">
           Редактировать
         </ButtonComponent>
@@ -66,7 +78,9 @@ const { editMode, cancelEdit, ApplyEdit, ToggleEdit } = useEdit(
   emit
 );
 
-const callDetail = () => emit(ComponentActions.callDetail);
+const callDetail = () => {
+  !editMode.value && emit(ComponentActions.callDetail);
+};
 //errors
 const { errorList, removeError, addError } = useErrorList();
 enum Errors {
