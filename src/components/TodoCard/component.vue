@@ -15,10 +15,12 @@
           placeholder="Введите наименование задачи"
           :value="title"
         ></textarea>
-        <button class="blue-btn w-auto" @click="handleEdit">Сохранить</button>
-        <button class="red-btn ml-1.5 w-auto" @click="cancelEdit">
+        <ButtonComponent class="blue-btn" @click="handleEdit"
+          >Сохранить</ButtonComponent
+        >
+        <ButtonComponent class="red-btn ml-1.5" @click="cancelEdit">
           Отмена
-        </button>
+        </ButtonComponent>
       </template>
       <template v-else>
         <span :class="{ 'text-red-700': !title.length }" @click="ToggleEdit">{{
@@ -31,6 +33,7 @@
 
 <script setup lang="ts">
 import { ref, toRefs } from "vue";
+import ButtonComponent from "@app/components/Button/component.vue";
 import ToastComponent from "@app/components/Toast/component.vue";
 import { useErrorList } from "@app/useErrorList";
 import { EditActions, useEdit } from "@app/useEdit";

@@ -28,7 +28,11 @@
       />
     </template>
     <template #list-control-panel v-if="todoList.editable">
-      <ButtonComponent @click="createListItem(listIndex)" />
+      <ButtonComponent
+        class="blue-btn w-full"
+        @click="createListItem(listIndex)"
+        >Add a card</ButtonComponent
+      >
     </template>
   </ListComponent>
 </template>

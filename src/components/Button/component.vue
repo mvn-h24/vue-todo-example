@@ -1,5 +1,5 @@
 <template>
-  <button class="blue-btn">Add a card</button>
+  <button class="abstract-btn"><slot /></button>
 </template>
 
 <script lang="ts">
