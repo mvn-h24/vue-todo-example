@@ -1,16 +1,21 @@
 import { Ref, ref } from "vue";
 
-export function useErrorList<T = string>(initArr: Array<T> = []) {
-  // const errorListRaw = new ErrorList<T>(initArr);
-  const errorList = ref(initArr) as Ref<Array<T>>;
+export function useErrorList<T = string>(
+  initArr: Array<{ id: number; src: T }> = []
+) {
+  const errorList = ref(initArr) as Ref<Array<{ id: number; src: T }>>;
 
   return {
     errorList,
-    removeOne: (n: number) => {
-      errorList.value = errorList.value.filter((a, index) => index !== n);
+    removeError: (id?: number) => {
+      if (id) {
+        errorList.value = errorList.value.filter((a) => a.id !== id);
+      } else {
+        errorList.value.pop();
+      }
     },
-    addOne(v: T) {
-      errorList.value.push(v);
+    addError(src: T) {
+      errorList.value.push({ id: Math.random(), src });
     },
   };
 }

@@ -2,11 +2,11 @@
   <div :class="['todo-card', { 'todo-card-editing': editMode }]">
     <div class="w-full relative">
       <ToastComponent
-        v-for="(errorMessage, index) in errorList"
+        v-for="error in errorList"
         class="absolute right-5"
-        :key="index"
-        :message="errorMessage"
-        @on-down="removeOne(index)"
+        :key="error.id"
+        :message="error.src"
+        @on-down="removeError(error.id)"
       />
       <template v-if="editMode">
         <textarea
@@ -16,7 +16,7 @@
           :value="title"
         ></textarea>
         <button class="blue-btn w-auto" @click="handleEdit">Сохранить</button>
-        <button class="ml-1.5 red-btn w-auto" @click="cancelEdit">
+        <button class="red-btn ml-1.5 w-auto" @click="cancelEdit">
           Отмена
         </button>
       </template>
@@ -43,12 +43,6 @@ interface ToDoListItemProps {
 const props = defineProps<ToDoListItemProps>();
 const { title, edit } = toRefs<ToDoListItemProps>(props);
 
-//errors
-const { errorList, removeOne, addOne } = useErrorList();
-enum Errors {
-  titleEmpty = "Empty title",
-}
-
 //edit title
 const emit = defineEmits<{
   (e: EditActions.titleEdited, data: string): void;
@@ -59,6 +53,12 @@ const { editMode, cancelEdit, ApplyEdit, ToggleEdit } = useEdit(
   emit
 );
 
+//errors
+const { errorList, removeError, addError } = useErrorList();
+enum Errors {
+  titleEmpty = "Empty title",
+}
+
 //text area
 const EditArea = ref<HTMLElement | null>(null);
 function handleEdit() {
@@ -68,7 +68,7 @@ function handleEdit() {
       ApplyEdit(textarea.value);
       ToggleEdit();
     } else {
-      addOne(Errors.titleEmpty);
+      addError(Errors.titleEmpty);
     }
   }
 }
