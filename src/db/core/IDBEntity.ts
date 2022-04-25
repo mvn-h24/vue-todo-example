@@ -19,4 +19,7 @@ export abstract class IDBEntity<
   public updateOne(dto: StoreValue<EScheme, EName>) {
     return this.db.put(this.tName, dto);
   }
+  public deleteOne(id: StoreKey<EScheme, EName>) {
+    return this.db.delete(this.tName, id);
+  }
 }

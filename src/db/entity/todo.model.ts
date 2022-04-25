@@ -13,9 +13,6 @@ export interface TodoEntSchema extends DBSchema {
 
 export class TodoModel extends IDBEntity<EntityRegistry.todo, TodoEntSchema> {
   protected tName: EntityRegistry.todo = EntityRegistry.todo;
-  getByListId(id: number) {
-    this.getAll().then((res) => res.filter((item) => item.list === id));
-  }
 }
 export function useTodoItemClient() {
   return useEntityClient<EntityRegistry.todo, TodoEntSchema>(

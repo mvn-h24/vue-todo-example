@@ -41,9 +41,14 @@
           ]"
           >{{ title.length ? title : "Empty title" }}</span
         >
-        <ButtonComponent class="blue-btn ml-4 h-7" @click="ToggleEdit">
-          Редактировать
-        </ButtonComponent>
+        <div>
+          <ButtonComponent class="blue-btn ml-4 h-7" @click="ToggleEdit">
+            Редактировать
+          </ButtonComponent>
+          <ButtonComponent class="red-btn ml-2 h-7" @click="callDelete">
+            Удалить
+          </ButtonComponent>
+        </div>
       </template>
     </div>
   </div>
@@ -65,6 +70,7 @@ const props = defineProps<ToDoListItemProps>();
 const { title, edit } = toRefs<ToDoListItemProps>(props);
 enum ComponentActions {
   callDetail = "detail-call",
+  callDelete = "delete-call",
 }
 
 //edit title
@@ -72,6 +78,7 @@ const emit = defineEmits<{
   (e: EditActions.titleEdited, data: string): void;
   (e: EditActions.titleEditCancel): void;
   (e: ComponentActions.callDetail): void;
+  (e: ComponentActions.callDelete): void;
 }>();
 const { editMode, cancelEdit, ApplyEdit, ToggleEdit } = useEdit(
   edit?.value !== undefined && edit.value,
@@ -81,6 +88,10 @@ const { editMode, cancelEdit, ApplyEdit, ToggleEdit } = useEdit(
 const callDetail = () => {
   !editMode.value && emit(ComponentActions.callDetail);
 };
+const callDelete = () => {
+  emit(ComponentActions.callDelete);
+};
+
 //errors
 const { errorList, removeError, addError } = useErrorList();
 enum Errors {

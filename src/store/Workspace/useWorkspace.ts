@@ -48,6 +48,11 @@ export const useWorkspace = defineStore<
         return useTodoItemClient().then((client) => client.addOne(dto));
       }
     },
+    deleteItemById(id: number) {
+      return useTodoItemClient()
+        .then((client) => client.deleteOne(id))
+        .then(() => this.load());
+    },
     itemUpdate(dto: ITodoItem) {
       return useTodoItemClient()
         .then((client) => client.updateOne(dto))

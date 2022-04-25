@@ -16,6 +16,7 @@
         v-for="todo in workspace.getListItems(todoList.id)"
         :key="todo.id"
         @title-edited="handleItemTitleEdit(todo, $event)"
+        @delete-call="workspace.deleteItemById(todo.id)"
         :title="todo.title"
       >
         {{ todo }}
