@@ -33,7 +33,7 @@
       <ButtonComponent
         class="blue-btn w-full"
         :disabled="newTodoItem && todoList.id === newTodoItem.listId"
-        @click="createListItem(todoList.id)"
+        @click="todoList.id && createListItem(todoList.id)"
         >Add a card</ButtonComponent
       >
     </template>
