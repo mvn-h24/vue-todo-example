@@ -4,7 +4,7 @@ import { EntityRegistry } from "../core/entityRegistry";
 import { IDBEntity } from "../core/IDBEntity";
 import { useEntityClient } from "../core/client";
 
-interface TodoEntSchema extends DBSchema {
+export interface TodoEntSchema extends DBSchema {
   [EntityRegistry.todo]: {
     key: number;
     value: ITodoListItem;

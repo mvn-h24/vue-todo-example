@@ -20,6 +20,6 @@ export abstract class IDBEntity<
     id: StoreKey<EScheme, EName> | IDBKeyRange,
     dto: StoreValue<EScheme, EName>
   ) {
-    return this.db.put(this.tName, dto, id);
+    return this.db.put(this.tName, dto);
   }
 }

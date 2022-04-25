@@ -1,6 +1,6 @@
 import { DBSchema, IDBPDatabase, openDB, StoreNames } from "idb";
 
-class DBClient<
+export class DBClient<
   EntityName extends StoreNames<EntitySchema>,
   EntitySchema extends DBSchema
 > {
@@ -11,8 +11,8 @@ class DBClient<
       autoIncrement: true,
     });
   }
-  public setup(entities: Array<EntityName>) {
-    return openDB<EntitySchema>(DBClient.dbName, 1, {
+  public async setup(entities: Array<EntityName>, version?: number) {
+    return openDB<EntitySchema>(DBClient.dbName, version, {
       upgrade: (db) => {
         entities.forEach((name) => this.tableFactory(name, db));
       },

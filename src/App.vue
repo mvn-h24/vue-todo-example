@@ -1,37 +1,29 @@
 <template>
+  <ButtonComponent @click="addTodoList">Add todo list</ButtonComponent>
   <ListComponent
     v-for="(todoList, listIndex) in todoLists"
-    :key="listIndex"
+    :key="todoList.id"
     :class="{ 'mt-4': listIndex }"
     :title="todoList.title"
   >
-    <template #cards-list v-if="todoList.items.length">
+    <template #cards-list v-if="todoList.items.length || newTodoItem">
       <ToDoCard
-        v-for="(todo, itemIndex) in todoList.items"
-        :title="todo.title"
-        :key="itemIndex"
-        @detail-call="cardDetailsCalled(todo)"
-        @title-edited="
-          store.updateTodo(listIndex, itemIndex, { ...todo, title: $event })
-        "
+        v-for="item in todoList.items"
+        :key="item.id"
+        :title="item.title"
       />
       <ToDoCard
-        v-if="newListItem && listIndex === newListItem.listId"
-        :title="newListItem.title"
+        v-if="newTodoItem && todoList.id === newTodoItem.todoList"
+        :title="newTodoItem.title"
         :edit="true"
-        @title-edited="
-          handleNewItemCreate(listIndex, {
-            ...newListItem,
-            title: $event,
-          })
-        "
-        @title-edit-cancel="newListItem = null"
+        @title-edited="handleNewItemCreate"
+        @title-edit-cancel="workspace.cleanupNewItem"
       />
     </template>
     <template #list-control-panel v-if="todoList.editable">
       <ButtonComponent
         class="blue-btn w-full"
-        @click="createListItem(listIndex)"
+        @click="createListItem(todoList.id)"
         >Add a card</ButtonComponent
       >
     </template>
@@ -48,44 +40,39 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useUserWorkspace } from "@app/store/useUserWorkspace";
-import { ITodoListItem } from "@app/types/todo/ITodoListItem";
 import ListComponent from "@app/components/List/component.vue";
 import ToDoCard from "@app/components/TodoCard/component.vue";
 import ButtonComponent from "@app/components/Button/component.vue";
-import { ref } from "vue";
+import { onMounted } from "vue";
 import ModalDialogComponent from "@app/components/ModalDialog/component.vue";
 import TodoDetailComponent from "@app/components/TodoDetail/component.vue";
+import { useWorkspace } from "@app/store/Workspace/useWorkspace";
 
-//app store
-const store = useUserWorkspace();
-const { todoLists } = storeToRefs(store);
+//app workspace
+const workspace = useWorkspace();
+const { todoLists, newTodoItem } = storeToRefs(workspace);
+onMounted(() => workspace.load());
 
-//new list item
-interface newTodoListItem extends ITodoListItem {
-  listId: number;
-}
-const newListItem = ref<newTodoListItem | null>();
-const createListItem = (listId: number) => {
-  newListItem.value = {
-    title: "",
-    description: "",
-    listId,
-  };
+const createListItem = (id: number) => {
+  workspace.createListTodo(id);
+  return workspace.load();
 };
-
+const addTodoList = () => workspace.createNewTodoList();
+const handleNewItemCreate = (data: string) => {
+  if (newTodoItem.value) {
+    newTodoItem.value.title = data;
+    return workspace.saveNewItem().then(() => workspace.load(true));
+  }
+};
 //card details
-const detailTodoElement = ref<null | ITodoListItem>(null);
-const handleNewItemCreate = (listIndex: number, item: ITodoListItem) => {
-  store.addTodo(listIndex, item);
-  newListItem.value = null;
-};
-const cardDetailsCalled = (todo: ITodoListItem) => {
-  detailTodoElement.value = todo;
-};
-const cardDetailsClosed = () => {
-  detailTodoElement.value = null;
-};
+// const detailTodoElement = ref<null | ITodoListItem>(null);
+
+// const cardDetailsCalled = (todo: ITodoListItem) => {
+//   detailTodoElement.value = todo;
+// };
+// const cardDetailsClosed = () => {
+//   detailTodoElement.value = null;
+// };
 </script>
 
 <style>
