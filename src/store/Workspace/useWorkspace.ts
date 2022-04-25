@@ -4,6 +4,7 @@ import { WorkspaceFactory } from "@app/store/Workspace/Workspace.factory";
 import { useTodoItemClient, useTodoListClient } from "@app/db";
 import { TodoItemFactory } from "@app/store/Workspace/TodoItem.factory";
 import { TodoListFactory } from "@app/store/Workspace/TodoList.factory";
+import { ITodoItem } from "@app/types/todo/ITodoItem";
 
 export const TodoListStoreToken = "WorkspaceStore";
 export const useWorkspace = defineStore<
@@ -15,53 +16,42 @@ export const useWorkspace = defineStore<
   state: () => {
     return WorkspaceFactory();
   },
-  // getters: {
-  //   getTodoItem: (store) => (idList: number, idItem: number) =>
-  //     store.todoLists
-  //       .find((v) => v.id === idList)
-  //       ?.items.find((v) => v.id === idItem),
-  // },
   getters: {
-    newItem: (store) => store.newTodoItem,
+    getListItems: (store) => (listId: number) =>
+      store.todoItems.filter((item) => item.listId === listId),
   },
   actions: {
-    async createNewTodoList() {
-      const { items, ...list } = TodoListFactory();
-      const client = await useTodoListClient();
-      await client.addOne({ ...list, items: [] });
-      return useWorkspace().load();
+    createNewTodoList() {
+      return useTodoListClient()
+        .then((client) => client.addOne(TodoListFactory()))
+        .then(() => this.load());
     },
     async load(cleanup = false) {
-      const entity = await useTodoListClient();
-      const todoLists = await entity.getAllPopulate();
-      this.$state = WorkspaceFactory({
-        todoLists,
-        newTodoItem: cleanup ? null : this.newTodoItem,
-      });
+      return Promise.all([useTodoListClient(), useTodoItemClient()])
+        .then(([todoListClient, todoClient]) =>
+          Promise.all([todoListClient.getAll(), todoClient.getAll()])
+        )
+        .then(([todoLists, todoItems]) => {
+          this.$state = WorkspaceFactory({
+            todoLists,
+            todoItems,
+            newTodoItem: cleanup ? null : this.newTodoItem,
+          });
+        });
     },
     createListTodo(listId: number) {
-      this.$state.newTodoItem = { ...TodoItemFactory(), todoList: listId };
+      this.$state.newTodoItem = TodoItemFactory(listId);
     },
-    async saveNewItem() {
+    saveNewItem() {
       if (this.$state.newTodoItem) {
-        const listEntity = await useTodoListClient();
-
-        const todoList = await listEntity.getOne(
-          this.$state.newTodoItem.todoList
-        );
-        if (todoList) {
-          const todoEntity = await useTodoItemClient();
-
-          const idTodo = await todoEntity.addOne({
-            ...this.$state.newTodoItem,
-          });
-          todoList.items.push(idTodo);
-          await listEntity.updateOne(
-            this.$state.newTodoItem.todoList,
-            todoList
-          );
-        }
+        const { id, ...dto } = this.$state.newTodoItem;
+        return useTodoItemClient().then((client) => client.addOne(dto));
       }
+    },
+    itemUpdate(dto: ITodoItem) {
+      return useTodoItemClient()
+        .then((client) => client.updateOne(dto))
+        .then(() => this.load());
     },
   },
 });

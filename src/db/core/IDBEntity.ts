@@ -16,10 +16,7 @@ export abstract class IDBEntity<
   public getAll() {
     return this.db.getAll(this.tName);
   }
-  public updateOne(
-    id: StoreKey<EScheme, EName> | IDBKeyRange,
-    dto: StoreValue<EScheme, EName>
-  ) {
+  public updateOne(dto: StoreValue<EScheme, EName>) {
     return this.db.put(this.tName, dto);
   }
 }

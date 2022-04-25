@@ -4,7 +4,7 @@ export function TodoListFactory(initValues?: Partial<ITodoList>): ITodoList {
   const defaultModel: ITodoList = {
     title: "",
     editable: true,
-    items: [],
+    sort: 0,
   };
   return initValues ? { ...defaultModel, ...initValues } : defaultModel;
 }

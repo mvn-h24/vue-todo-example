@@ -1,12 +1,12 @@
-import { ITodoListItem } from "@app/types/todo/ITodoListItem";
+import { ITodoItem } from "@app/types/todo/ITodoItem";
 
 export interface ITodoListItemActions {
-  create(dto?: Partial<ITodoListItem>): void;
+  create(dto?: Partial<ITodoItem>): void;
   read(idTodoList: number, idTodoItem: number): void;
   update(
     idTodoList: number,
     idTodoItem: number,
-    dto?: Partial<ITodoListItem>
+    dto?: Partial<ITodoItem>
   ): void;
   delete(idTodoList: number, idTodoItem: number): void;
 

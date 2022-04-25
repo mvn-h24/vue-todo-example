@@ -1,9 +1,12 @@
-import { ITodoListItem } from "@app/types/todo/ITodoListItem";
+import { ITodoItem } from "@app/types/todo/ITodoItem";
 
 export function TodoItemFactory(
-  initValues?: Partial<ITodoListItem>
-): ITodoListItem {
-  const defaultModel: ITodoListItem = {
+  listId: number,
+  initValues?: Partial<ITodoItem>
+): ITodoItem {
+  const defaultModel: ITodoItem = {
+    listId,
+    sort: 0,
     title: "",
     description: "",
   };

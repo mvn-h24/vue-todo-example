@@ -1,7 +1,8 @@
 import { ITodoList } from "@app/types/todo/ITodoList";
-import { ITodoListItem } from "@app/types/todo/ITodoListItem";
+import { ITodoItem } from "@app/types/todo/ITodoItem";
 
 export interface IWorkspace {
   todoLists: Array<ITodoList>;
-  newTodoItem: (ITodoListItem & { todoList: number }) | null;
+  todoItems: Array<ITodoItem>;
+  newTodoItem: ITodoItem | null;
 }

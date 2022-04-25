@@ -7,12 +7,12 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
-import { ITodoListItem } from "@app/types/todo/ITodoListItem";
+import { ITodoItem } from "@app/types/todo/ITodoItem";
 
 export default defineComponent({
   name: "TodoDetailComponent",
   props: {
-    todo: Object as PropType<ITodoListItem>,
+    todo: Object as PropType<ITodoItem>,
   },
 });
 </script>
