@@ -1,5 +1,5 @@
 import { ITodoList } from "@app/types/todo/ITodoList";
 
-export interface IUserWorkspace {
+export interface IWorkspace {
   todoLists: Array<ITodoList>;
 }

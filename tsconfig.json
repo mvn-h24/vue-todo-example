@@ -25,6 +25,9 @@
       "@app/directive": [
         "./src/directive/index.ts"
       ],
+      "@app/db": [
+        "./src/db/index.ts"
+      ],
       "@app/*": [
         "./src/composable/*"
       ]
