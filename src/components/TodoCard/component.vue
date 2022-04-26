@@ -3,53 +3,53 @@
     :class="['todo-card', { 'todo-card-editing': editMode }]"
     @click.self="callDetail"
   >
-    <div class="w-full relative flex justify-between" @click.self="callDetail">
-      <ToastComponent
-        v-for="error in errorList"
-        class="absolute right-5"
-        :key="error.id"
-        :message="error.src"
-        @on-down="ErrorShown(error.id)"
-      />
-      <template v-if="editMode">
-        <textarea
-          v-focus
-          ref="EditArea"
-          class="w-full resize-none"
-          placeholder="Введите наименование задачи"
-          :value="title"
-        ></textarea>
-        <div class="ml-2 flex">
-          <ButtonComponent class="blue-btn h-7" @click="handleEdit"
+    <ToastComponent
+      v-for="error in errorList"
+      class="absolute top-0.5 right-0.5 w-1/2"
+      :key="error.id"
+      :message="error.src"
+      @on-down="ErrorShown(error.id)"
+    />
+    <input
+      v-focus:focusout="CancelEdit"
+      ref="EditArea"
+      class="w-full resize-none bg-transparent p-1"
+      placeholder="Введите наименование задачи"
+      :value="title"
+      v-if="editMode"
+    />
+    <div
+      v-else
+      :class="[
+        'ease-in-out duration-300',
+        'rounded-md p-1 break-all',
+        'inline-block w-full inline-block',
+        'hover:ring-2 hover:ring-yellow-500',
+        { 'text-red-700': !title.length },
+      ]"
+      @click="ToggleEdit"
+    >
+      {{ title.length ? title : "Empty title" }}
+    </div>
+    <div class="h-6 overflow-hidden">
+      <ShowSlideTransition :direction="'topToBottom'" :hide-immediate="true">
+        <div class="todo-card__btn-group" v-if="editMode">
+          <ButtonComponent class="blue-btn" ref="saveBtn" @click="handleEdit"
             >Сохранить</ButtonComponent
           >
-          <ButtonComponent class="red-btn ml-0.5 h-7" @click="cancelEdit">
+          <ButtonComponent class="red-btn" @click="cancelEdit">
             Отмена
           </ButtonComponent>
         </div>
-      </template>
-      <template v-else>
-        <span
-          :class="[
-            'ease-in-out',
-            'duration-300',
-            'rounded-md',
-            'p-1',
-            'self-center',
-            'hover:ring-2 hover:ring-yellow-500',
-            { 'text-red-700': !title.length },
-          ]"
-          >{{ title.length ? title : "Empty title" }}</span
-        >
-        <div>
-          <ButtonComponent class="blue-btn ml-4 h-7" @click="ToggleEdit">
-            Редактировать
+        <div class="todo-card__btn-group" v-else>
+          <ButtonComponent class="green-btn" @click="callReady">
+            Выполнено
           </ButtonComponent>
-          <ButtonComponent class="red-btn ml-2 h-7" @click="callDelete">
+          <ButtonComponent class="red-btn" @click="callDelete">
             Удалить
           </ButtonComponent>
         </div>
-      </template>
+      </ShowSlideTransition>
     </div>
   </div>
 </template>
@@ -58,6 +58,7 @@
 import { ref, toRefs } from "vue";
 import ButtonComponent from "@app/components/Button/component.vue";
 import ToastComponent from "@app/components/Toast/component.vue";
+import ShowSlideTransition from "@app/components/Transition/ShowSlideTransition.vue";
 import { useErrorList } from "@app/useErrorList";
 import { EditActions, useEdit } from "@app/useEdit";
 
@@ -71,25 +72,34 @@ const { title, edit } = toRefs<ToDoListItemProps>(props);
 enum ComponentActions {
   callDetail = "detail-call",
   callDelete = "delete-call",
+  callReady = "ready-call",
 }
-
+const saveBtn = ref(null);
 //edit title
 const emit = defineEmits<{
   (e: EditActions.editReady, data: string): void;
   (e: EditActions.editCancel): void;
   (e: ComponentActions.callDetail): void;
   (e: ComponentActions.callDelete): void;
+  (e: ComponentActions.callReady): void;
 }>();
 const { editMode, cancelEdit, ApplyEdit, ToggleEdit } = useEdit(
   edit?.value !== undefined && edit.value,
   emit
 );
-
+const CancelEdit = (e: FocusEvent) => {
+  if (saveBtn.value && saveBtn.value["$el"] !== e.relatedTarget) {
+    cancelEdit();
+  }
+};
 const callDetail = () => {
   !editMode.value && emit(ComponentActions.callDetail);
 };
 const callDelete = () => {
   emit(ComponentActions.callDelete);
+};
+const callReady = () => {
+  emit(ComponentActions.callReady);
 };
 
 //errors

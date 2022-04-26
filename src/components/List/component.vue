@@ -29,20 +29,16 @@
       />
       <h3 class="text-sm" v-else-if="title.length">{{ title }}</h3>
     </div>
-    <div class="flex flex-col">
-      <div
-        class="mt-2"
-        v-if="$slots['cards-list'] && $slots['cards-list']().length"
-      >
-        <slot name="cards-list"></slot>
+    <div class="grid grid-flow-row gap-2 w-full">
+      <div v-if="$slots['cards-list'] && $slots['cards-list']().length">
+        <slot name="cards-list" />
       </div>
       <div
         v-if="
           $slots['list-control-panel'] && $slots['list-control-panel']().length
         "
-        class="mt-2"
       >
-        <slot name="list-control-panel"></slot>
+        <slot name="list-control-panel" />
       </div>
     </div>
   </div>
