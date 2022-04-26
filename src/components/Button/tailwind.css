@@ -3,7 +3,7 @@
         @apply grayscale pointer-events-none
     }
     .abstract-btn{
-        @apply text-white rounded-md font-semibold px-4 py-1 transition ease-in-out
+        @apply text-white rounded-md font-semibold px-2 py-0.5 transition ease-in-out  h-6 font-normal text-xs
     }
     .blue-btn{
         @apply bg-blue-600 hover:bg-blue-500

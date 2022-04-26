@@ -5,6 +5,7 @@ import { useTodoItemClient, useTodoListClient } from "@app/db";
 import { TodoItemFactory } from "@app/store/Workspace/TodoItem.factory";
 import { TodoListFactory } from "@app/store/Workspace/TodoList.factory";
 import { ITodoItem } from "@app/types/todo/ITodoItem";
+import { ITodoList } from "@app/types/todo/ITodoList";
 
 export const TodoListStoreToken = "WorkspaceStore";
 export const useWorkspace = defineStore<
@@ -44,6 +45,7 @@ export const useWorkspace = defineStore<
     },
     saveNewItem() {
       if (this.$state.newTodoItem) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { id, ...dto } = this.$state.newTodoItem;
         return useTodoItemClient().then((client) => client.addOne(dto));
       }
@@ -55,6 +57,11 @@ export const useWorkspace = defineStore<
     },
     itemUpdate(dto: ITodoItem) {
       return useTodoItemClient()
+        .then((client) => client.updateOne(dto))
+        .then(() => this.load());
+    },
+    listUpdate(dto: ITodoList) {
+      return useTodoListClient()
         .then((client) => client.updateOne(dto))
         .then(() => this.load());
     },

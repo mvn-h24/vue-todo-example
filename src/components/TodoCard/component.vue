@@ -75,8 +75,8 @@ enum ComponentActions {
 
 //edit title
 const emit = defineEmits<{
-  (e: EditActions.titleEdited, data: string): void;
-  (e: EditActions.titleEditCancel): void;
+  (e: EditActions.editReady, data: string): void;
+  (e: EditActions.editCancel): void;
   (e: ComponentActions.callDetail): void;
   (e: ComponentActions.callDelete): void;
 }>();

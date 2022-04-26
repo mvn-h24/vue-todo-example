@@ -1,12 +1,12 @@
 import { ref } from "vue";
 
 export enum EditActions {
-  titleEdited = "title-edited",
-  titleEditCancel = "title-edit-cancel",
+  editReady = "edit-ready",
+  editCancel = "edit-cancel",
 }
 export interface EditEmits<Data> {
-  (e: EditActions.titleEdited, data: Data): void;
-  (e: EditActions.titleEditCancel): void;
+  (e: EditActions.editReady, data: Data): void;
+  (e: EditActions.editCancel): void;
 }
 export function useEdit<Data = string>(init = false, emit: EditEmits<Data>) {
   const editMode = ref(init);
@@ -16,10 +16,10 @@ export function useEdit<Data = string>(init = false, emit: EditEmits<Data>) {
   };
   const cancelEdit = () => {
     editMode.value = false;
-    emit(EditActions.titleEditCancel);
+    emit(EditActions.editCancel);
   };
   const ApplyEdit = (data: Data) => {
-    emit(EditActions.titleEdited, data);
+    emit(EditActions.editReady, data);
   };
   return {
     editMode,

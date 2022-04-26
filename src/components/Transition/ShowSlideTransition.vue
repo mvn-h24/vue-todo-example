@@ -1,5 +1,9 @@
 <template>
-  <Transition :name="direction" :style="{ ...transition, ...translate }">
+  <Transition
+    :name="direction"
+    :style="{ ...transition, ...translate }"
+    :class="{ 'hide-immediate': hideImmediate }"
+  >
     <slot />
   </Transition>
 </template>
@@ -23,6 +27,10 @@ export default defineComponent({
       type: Number,
       default: () => 30,
     },
+    hideImmediate: {
+      type: Boolean,
+      default: () => false,
+    },
   },
   computed: {
     transition() {
@@ -45,6 +53,13 @@ export default defineComponent({
 
 <!--suppress CssUnusedSymbol -->
 <style>
+.topToBottom-leave-active.hide-immediate,
+.leftToRight-leave-active.hide-immediate,
+.topToBottom-leave-active.hide-immediate,
+.rightToLeft-leave-active.hide-immediate {
+  transition: all 0.1s ease;
+  display: none;
+}
 .topToBottom-enter-active,
 .topToBottom-leave-active,
 .leftToRight-enter-active,
