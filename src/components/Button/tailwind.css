@@ -14,4 +14,7 @@
     .green-btn{
         @apply bg-emerald-600 hover:bg-emerald-500
     }
+    .yellow-btn{
+        @apply bg-yellow-600 hover:bg-yellow-500
+    }
 }

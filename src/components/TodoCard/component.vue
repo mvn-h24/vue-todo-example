@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="['todo-card', { 'todo-card-editing': editMode }]"
+    :class="[
+      'todo-card',
+      { 'todo-card-editing': editMode },
+      { 'todo-card-ready': ready },
+    ]"
     @click.self="callDetail"
   >
     <ToastComponent
@@ -42,10 +46,13 @@
           </ButtonComponent>
         </div>
         <div class="todo-card__btn-group" v-else>
-          <ButtonComponent class="green-btn" @click="callReady">
-            Выполнено
+          <ButtonComponent
+            :class="{ 'green-btn': !ready, 'yellow-btn': ready }"
+            @click="toggleReady"
+          >
+            {{ ready ? "Выполнено" : "Готово" }}
           </ButtonComponent>
-          <ButtonComponent class="red-btn" @click="callDelete">
+          <ButtonComponent v-if="ready" class="red-btn" @click="callDelete">
             Удалить
           </ButtonComponent>
         </div>
@@ -66,23 +73,28 @@ import { EditActions, useEdit } from "@app/useEdit";
 interface ToDoListItemProps {
   title: string;
   edit?: boolean;
+  ready?: boolean;
 }
 const props = defineProps<ToDoListItemProps>();
-const { title, edit } = toRefs<ToDoListItemProps>(props);
+const { title, edit, ready } = toRefs<ToDoListItemProps>(props);
 enum ComponentActions {
   callDetail = "detail-call",
   callDelete = "delete-call",
-  callReady = "ready-call",
+  toggleReady = "toggle-ready",
 }
 const saveBtn = ref(null);
-//edit title
 const emit = defineEmits<{
   (e: EditActions.editReady, data: string): void;
   (e: EditActions.editCancel): void;
   (e: ComponentActions.callDetail): void;
   (e: ComponentActions.callDelete): void;
-  (e: ComponentActions.callReady): void;
+  (e: ComponentActions.toggleReady): void;
 }>();
+const toggleReady = () => {
+  emit(ComponentActions.toggleReady);
+};
+
+//edit title
 const { editMode, CancelEdit, ApplyEdit, ToggleEdit } = useEdit(
   edit?.value !== undefined && edit.value,
   emit
@@ -97,9 +109,6 @@ const callDetail = () => {
 };
 const callDelete = () => {
   emit(ComponentActions.callDelete);
-};
-const callReady = () => {
-  emit(ComponentActions.callReady);
 };
 
 //errors

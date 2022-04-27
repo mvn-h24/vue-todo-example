@@ -21,8 +21,10 @@
           v-for="todo in workspace.getListItems(todoList.id)"
           :key="todo.id"
           :title="todo.title"
+          :ready="todo.ready"
           @edit-ready="handleItemTitleEdit(todo, $event)"
           @delete-call="workspace.deleteItemById(todo.id)"
+          @toggle-ready="handlerTodoItemReadyToggle(todo)"
         />
         <ToDoCard
           v-if="newTodoItem && todoList.id === newTodoItem.listId"
@@ -70,7 +72,6 @@ const handlerEditTodoList = (list: ITodoList, title?: string) => {
   }
 };
 const handleNewItemCreate = (data: string) => {
-  console.log("handleNewItemCreate");
   if (newTodoItem.value) {
     newTodoItem.value.title = data;
     return workspace.saveNewItem().then(() => workspace.load(true));
@@ -80,6 +81,8 @@ const handleNewItemCreateCancel = () => workspace.load(true);
 const handleItemTitleEdit = (item: ITodoItem, title: string) =>
   workspace.itemUpdate({ ...item, title });
 const deleteList = (id: number) => workspace.deleteListById(id);
+const handlerTodoItemReadyToggle = (item: ITodoItem) =>
+  workspace.itemUpdate({ ...item, ready: !item.ready });
 //card details
 // const detailTodoElement = ref<null | ITodoItem>(null);
 

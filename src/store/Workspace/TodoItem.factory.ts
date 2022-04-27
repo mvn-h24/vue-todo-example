@@ -9,6 +9,7 @@ export function TodoItemFactory(
     sort: 0,
     title: "",
     description: "",
+    ready: false,
   };
   return initValues ? { ...defaultModel, ...initValues } : defaultModel;
 }

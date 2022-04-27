@@ -4,4 +4,5 @@ export interface ITodoItem {
   sort: number;
   title: string;
   description: string;
+  ready: boolean;
 }
