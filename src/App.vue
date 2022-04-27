@@ -80,7 +80,7 @@ const handleNewItemCreate = (data: string) => {
 const handleNewItemCreateCancel = () => workspace.load(true);
 const handleItemTitleEdit = (item: ITodoItem, title: string) =>
   workspace.itemUpdate({ ...item, title });
-const deleteList = (id: number) => workspace.deleteListById(id);
+const deleteList = (id?: number) => id && workspace.deleteListById(id);
 const handlerTodoItemReadyToggle = (item: ITodoItem) =>
   workspace.itemUpdate({ ...item, ready: !item.ready });
 //card details

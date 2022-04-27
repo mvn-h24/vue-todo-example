@@ -16,7 +16,7 @@ export default defineComponent({
   name: "ShowSlideTransition",
   props: {
     direction: {
-      type: String as PropType<TransitionDirection>,
+      type: String as PropType<TransitionDirection | string>,
       default: () => TransitionDirection.rightToLeft,
     },
     easeSeconds: {
