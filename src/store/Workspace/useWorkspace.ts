@@ -68,6 +68,20 @@ export const useWorkspace = defineStore<
     deleteListById(id: number) {
       return useTodoListClient()
         .then((client) => client.deleteOne(id))
+        .then(() => useTodoItemClient())
+        .then(async (todoItemClient) =>
+          Promise.all(
+            await todoItemClient
+              .getAll()
+              .then((res) =>
+                res
+                  .filter((v) => v.listId === id)
+                  .map(
+                    (value) => value.id && todoItemClient.deleteOne(value.id)
+                  )
+              )
+          )
+        )
         .then(() => this.load());
     },
   },
