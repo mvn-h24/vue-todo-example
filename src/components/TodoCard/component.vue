@@ -17,7 +17,7 @@
     <input
       v-focus:focusout="cancelEdit"
       ref="EditArea"
-      class="w-full resize-none bg-transparent p-1"
+      class="w-full p-1 bg-transparent resize-none"
       placeholder="Введите наименование задачи"
       :value="title"
       v-if="editMode"
@@ -26,8 +26,7 @@
       v-else
       :class="[
         'ease-in-out duration-300',
-        'rounded-md p-1 break-all',
-        'inline-block w-full inline-block',
+        'w-full p-1 rounded-md break-all inline-block',
         'hover:ring-2 hover:ring-yellow-500',
         { 'text-red-700': !title.length },
       ]"
@@ -41,9 +40,6 @@
           <ButtonComponent class="blue-btn" ref="saveBtn" @click="handleEdit"
             >Сохранить</ButtonComponent
           >
-          <ButtonComponent class="red-btn" @click="cancelEdit">
-            Отмена
-          </ButtonComponent>
         </div>
         <div class="todo-card__btn-group" v-else>
           <ButtonComponent

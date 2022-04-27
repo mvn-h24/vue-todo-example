@@ -1,10 +1,10 @@
 <template>
-  <div class="list-container overflow-hidden">
-    <div class="grid grid-flow-row auto-rows-min gap-2 w-full relative">
+  <div class="overflow-hidden list-container">
+    <div class="relative grid w-full grid-flow-row gap-2 auto-rows-min">
       <input
         v-focus:focusout="cancelEdit"
         v-if="editMode"
-        class="bg-gray-200 text-black text-sm z-20"
+        class="z-20 py-1 text-sm text-black bg-gray-200 rounded-md"
         v-model="editTitle"
         placeholder="title"
       />
@@ -27,14 +27,14 @@
           <ButtonComponent class="green-btn" @click="applyEdit" ref="saveBtn"
             >Save</ButtonComponent
           >
-          <ButtonComponent class="red-btn" @click="callDelete"
+          <ButtonComponent class="red-btn" @click="callDelete" ref="deleteBtn"
             >Delete</ButtonComponent
           >
         </div>
       </ShowSlideTransition>
     </div>
     <div
-      class="grid grid-flow-row gap-2 w-full mt-2"
+      class="grid w-full grid-flow-row gap-2 mt-2"
       v-if="
         ($slots['cards-list'] && $slots['cards-list']().length) ||
         ($slots['list-control-panel'] && $slots['list-control-panel']().length)
@@ -90,6 +90,10 @@ const applyEdit = () => {
   ToggleEdit();
 };
 const cancelEdit = (e: FocusEvent) => {
+  console.log(
+    saveBtn.value && saveBtn.value["$el"] !== e.relatedTarget,
+    deleteBtn.value && deleteBtn.value["$el"] !== e.relatedTarget
+  );
   if (
     saveBtn.value &&
     saveBtn.value["$el"] !== e.relatedTarget &&
