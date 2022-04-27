@@ -65,5 +65,10 @@ export const useWorkspace = defineStore<
         .then((client) => client.updateOne(dto))
         .then(() => this.load());
     },
+    deleteListById(id: number) {
+      return useTodoListClient()
+        .then((client) => client.deleteOne(id))
+        .then(() => this.load());
+    },
   },
 });

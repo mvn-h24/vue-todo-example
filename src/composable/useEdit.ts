@@ -14,7 +14,7 @@ export function useEdit<Data = string>(init = false, emit: EditEmits<Data>) {
   const ToggleEdit = () => {
     editMode.value = !editMode.value;
   };
-  const cancelEdit = () => {
+  const CancelEdit = () => {
     editMode.value = false;
     emit(EditActions.editCancel);
   };
@@ -24,7 +24,7 @@ export function useEdit<Data = string>(init = false, emit: EditEmits<Data>) {
   return {
     editMode,
     ToggleEdit,
-    cancelEdit,
+    CancelEdit,
     ApplyEdit,
   };
 }

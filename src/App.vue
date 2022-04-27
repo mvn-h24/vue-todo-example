@@ -1,17 +1,21 @@
 <template>
-  <ButtonComponent class="green-btn mb-5" @click="addTodoList"
+  <ButtonComponent class="green-btn" @click="addTodoList"
     >Add todo list</ButtonComponent
   >
-  <div class="grid grid-flow-col auto-cols-max gap-5">
+  <div class="grid items-start grid-flow-col gap-5 auto-cols-max">
     <ListComponent
       v-for="todoList in todoLists"
       :key="todoList.id"
       :title="todoList.title"
+      @delete-call="deleteList(todoList.id)"
       @edit-ready="handlerEditTodoList(todoList, $event)"
     >
       <template
         #cards-list
-        v-if="workspace.getListItems(todoList.id).length || newTodoItem"
+        v-if="
+          workspace.getListItems(todoList.id).length ||
+          (newTodoItem && todoList.id === newTodoItem.listId)
+        "
       >
         <ToDoCard
           v-for="todo in workspace.getListItems(todoList.id)"
@@ -19,9 +23,7 @@
           :title="todo.title"
           @edit-ready="handleItemTitleEdit(todo, $event)"
           @delete-call="workspace.deleteItemById(todo.id)"
-        >
-          {{ todo }}
-        </ToDoCard>
+        />
         <ToDoCard
           v-if="newTodoItem && todoList.id === newTodoItem.listId"
           :title="newTodoItem.title"
@@ -32,7 +34,7 @@
       </template>
       <template #list-control-panel v-if="todoList.editable">
         <ButtonComponent
-          class="blue-btn w-full"
+          class="w-full blue-btn"
           :disabled="newTodoItem && todoList.id === newTodoItem.listId"
           @click="todoList.id && createListItem(todoList.id)"
           >Add a card</ButtonComponent
@@ -61,9 +63,11 @@ const createListItem = (id: number) => {
   return workspace.load();
 };
 const addTodoList = () => workspace.createNewTodoList();
-const handlerEditTodoList = (list: ITodoList, title: string) => {
-  const dto = { ...list, title };
-  workspace.listUpdate(dto);
+const handlerEditTodoList = (list: ITodoList, title?: string) => {
+  if (title) {
+    const dto = { ...list, title };
+    workspace.listUpdate(dto);
+  }
 };
 const handleNewItemCreate = (data: string) => {
   console.log("handleNewItemCreate");
@@ -75,6 +79,7 @@ const handleNewItemCreate = (data: string) => {
 const handleNewItemCreateCancel = () => workspace.load(true);
 const handleItemTitleEdit = (item: ITodoItem, title: string) =>
   workspace.itemUpdate({ ...item, title });
+const deleteList = (id: number) => workspace.deleteListById(id);
 //card details
 // const detailTodoElement = ref<null | ITodoItem>(null);
 
@@ -95,8 +100,10 @@ body,
   min-height: 100vh;
 }
 #app {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-auto-flow: row;
+  grid-auto-rows: min-content;
+  gap: 15px;
   align-items: flex-start;
   justify-items: flex-start;
   overflow-y: hidden;

@@ -55,7 +55,7 @@ export default defineComponent({
 <style>
 .topToBottom-leave-active.hide-immediate,
 .leftToRight-leave-active.hide-immediate,
-.topToBottom-leave-active.hide-immediate,
+.bottomToTop-leave-active.hide-immediate,
 .rightToLeft-leave-active.hide-immediate {
   transition: all 0.1s ease;
   display: none;
@@ -64,8 +64,8 @@ export default defineComponent({
 .topToBottom-leave-active,
 .leftToRight-enter-active,
 .leftToRight-leave-active,
-.topToBottom-enter-active,
-.topToBottom-leave-active,
+.bottomToTop-enter-active,
+.bottomToTop-leave-active,
 .rightToLeft-enter-active,
 .rightToLeft-leave-active {
   --transition-pars: all 5s ease;
@@ -85,8 +85,8 @@ export default defineComponent({
   transform: translateX(var(--path-length));
 }
 
-.topToBottom-enter-from,
-.topToBottom-leave-to {
+.bottomToTop-enter-from,
+.bottomToTop-leave-to {
   opacity: 0;
   transform: translateY(var(--path-length));
 }

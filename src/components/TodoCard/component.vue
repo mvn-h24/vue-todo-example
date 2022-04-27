@@ -11,7 +11,7 @@
       @on-down="ErrorShown(error.id)"
     />
     <input
-      v-focus:focusout="CancelEdit"
+      v-focus:focusout="cancelEdit"
       ref="EditArea"
       class="w-full resize-none bg-transparent p-1"
       placeholder="Введите наименование задачи"
@@ -83,13 +83,13 @@ const emit = defineEmits<{
   (e: ComponentActions.callDelete): void;
   (e: ComponentActions.callReady): void;
 }>();
-const { editMode, cancelEdit, ApplyEdit, ToggleEdit } = useEdit(
+const { editMode, CancelEdit, ApplyEdit, ToggleEdit } = useEdit(
   edit?.value !== undefined && edit.value,
   emit
 );
-const CancelEdit = (e: FocusEvent) => {
+const cancelEdit = (e: FocusEvent) => {
   if (saveBtn.value && saveBtn.value["$el"] !== e.relatedTarget) {
-    cancelEdit();
+    CancelEdit();
   }
 };
 const callDetail = () => {
