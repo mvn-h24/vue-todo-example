@@ -3,13 +3,13 @@ import { Directive } from "vue";
 export const focus: Directive = {
   mounted: (el: HTMLElement, binding) => {
     el.focus();
-    if (binding.arg === "focusout" && binding.value) {
-      el.addEventListener("focusout", binding.value);
+    if (binding.arg === "blur" && binding.value) {
+      el.addEventListener("blur", binding.value);
     }
   },
   unmounted: (el: HTMLElement, binding) => {
-    if (binding.arg === "focusout" && binding.value) {
-      el.removeEventListener("focusout", binding.value);
+    if (binding.arg === "blur" && binding.value) {
+      el.removeEventListener("blur", binding.value);
     }
   },
 };
