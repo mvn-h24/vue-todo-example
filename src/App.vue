@@ -83,19 +83,40 @@ const handleItemTitleEdit = (item: ITodoItem, title: string) =>
 const deleteList = (id?: number) => id && workspace.deleteListById(id);
 const handlerTodoItemReadyToggle = (item: ITodoItem) =>
   workspace.itemUpdate({ ...item, ready: !item.ready });
-//card details
-// const detailTodoElement = ref<null | ITodoItem>(null);
 
-// const cardDetailsCalled = (todo: ITodoItem) => {
-//   detailTodoElement.value = todo;
-// };
-// const cardDetailsClosed = () => {
-//   detailTodoElement.value = null;
+// const onMoveTodo = async (
+//   { oldIndex, newIndex }: { oldIndex?: number; newIndex?: number },
+//   listId?: number
+// ) => {
+//   if (
+//     listId !== undefined &&
+//     oldIndex !== undefined &&
+//     newIndex !== undefined
+//   ) {
+//     const items = await workspace.getListItems(listId);
+//     const newItem = {
+//       ...items[oldIndex],
+//       sort: newIndex,
+//     };
+//     console.log(items[oldIndex]);
+//     console.log(newItem);
+//     await workspace.itemUpdate(newItem);
+//   }
 // };
 </script>
 
 <!--suppress CssUnusedSymbol -->
 <style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .app-layout {
+    @apply bg-blue-600 p-6;
+  }
+}
+
 html,
 body,
 #app {

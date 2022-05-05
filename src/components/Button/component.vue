@@ -9,3 +9,4 @@ export default defineComponent({
   name: "ButtonComponent",
 });
 </script>
+<style src="./tailwind.css" scoped />

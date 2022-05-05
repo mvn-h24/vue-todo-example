@@ -28,11 +28,11 @@
         'ease-in-out duration-300',
         'w-full p-1 rounded-md break-all inline-block',
         'hover:ring-2 hover:ring-yellow-500',
-        { 'text-red-700': !title.length },
+        { 'text-red-700': title && !title.length },
       ]"
       @click="ToggleEdit"
     >
-      {{ title.length ? title : "Empty title" }}
+      {{ title && title.length ? title : "Empty title" }}
     </div>
     <div class="h-6 overflow-hidden">
       <ShowSlideTransition :direction="'topToBottom'" :hide-immediate="true">
@@ -143,3 +143,4 @@ export default defineComponent({
   },
 });
 </script>
+<style src="./tailwind.css" scoped />

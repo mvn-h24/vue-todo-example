@@ -1,5 +1,6 @@
-@layer components {
+@tailwind components;
 
+@layer components {
     .todo-card{
         /*@apply overflow-hidden relative transition ease-in-out duration-500 grid gap-2 bg-white p-2 rounded mt-1 border-b border-gray-200 cursor-pointer text-sm hover:bg-gray-100 w-80 hover:ring-1 ring-yellow-500*/
         @apply overflow-hidden relative transition ease-in-out duration-500 grid gap-2 bg-white p-2 rounded mt-1 border-b border-gray-200 cursor-pointer text-sm hover:bg-gray-100 w-full hover:ring-1 ring-yellow-500

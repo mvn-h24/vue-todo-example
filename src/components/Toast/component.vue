@@ -122,3 +122,5 @@ export default defineComponent({
   },
 });
 </script>
+
+<style src="./tailwind.css" scoped />
