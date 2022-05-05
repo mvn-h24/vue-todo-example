@@ -90,10 +90,6 @@ const applyEdit = () => {
   ToggleEdit();
 };
 const cancelEdit = (e: FocusEvent) => {
-  console.log(
-    saveBtn.value && saveBtn.value["$el"] !== e.relatedTarget,
-    deleteBtn.value && deleteBtn.value["$el"] !== e.relatedTarget
-  );
   if (
     saveBtn.value &&
     saveBtn.value["$el"] !== e.relatedTarget &&
